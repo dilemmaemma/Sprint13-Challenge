@@ -52,4 +52,12 @@ router.get('/:id/actions', validateProjectId, (req, res, next) => {
 
 })
 
+router.use((err, req, res, next) => {
+    res.status(err.status || 500).json({
+      customMessage: 'sowwy something twagic happened owo',
+      message: err.message,
+      stack: err.stack,
+    })
+  })
+
 module.exports = router
