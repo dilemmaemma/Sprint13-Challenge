@@ -6,7 +6,7 @@ const {
 const Project = require('./projects-model')
 const router = express.Router()
 
-router.get('/projects', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Project.get()
         .then(projects => {
             res.json(projects)
@@ -14,22 +14,24 @@ router.get('/projects', (req, res, next) => {
         .catch(next)
 })
 
-router.get('/projects/:id', validateProjectId, (req, res, next) => {
+router.get('/:id', validateProjectId, (req, res, next) => {
     req.json(req.project)
 })
 
-router.post('/projects', (req, res, next) => {
+router.post('/', (req, res, next) => {
 
 })
 
-router.put('/projects/:id', validateProjectId, (req, res, next) => [
+router.put('/:id', validateProjectId, (req, res, next) => [
 
 ])
 
-router.delete('/projects/:id', validateProjectId, (req, res, next) => {
+router.delete('/:id', validateProjectId, (req, res, next) => {
 
 })
 
-router.get('/projects/:id/actions', validateProjectId, (req, res, next) => {
+router.get('/:id/actions', validateProjectId, (req, res, next) => {
 
 })
+
+module.exports = router

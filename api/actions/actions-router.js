@@ -6,7 +6,7 @@ const {
 const Action = require('./actions-model')
 const router = express.Router()
 
-router.get('/actions', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Action.get()
         .then(actions => {
             res.json(actions)
@@ -14,18 +14,20 @@ router.get('/actions', (req, res, next) => {
         .catch(next)
 })
 
-router.get('/actions/:id', validateActionId, (req, res) => {
+router.get('/:id', validateActionId, (req, res) => {
     res.json(req.action)
 })
 
-router.post('/actions', (req, res, next) => {
+router.post('/', (req, res, next) => {
 
 })
 
-router.put('/actions/:id', validateActionId, (req, res, next) => {
+router.put('/:id', validateActionId, (req, res, next) => {
 
 })
 
-router.delete('/actions/:id', validateActionId, (req, res, next) => {
+router.delete('/:id', validateActionId, (req, res, next) => {
 
 })
+
+module.exports = router
