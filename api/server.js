@@ -8,7 +8,7 @@ server.use(express.json())
 server.use(cors)
 server.use(logger)
 
-server.use('/api')
+server.use('/api', [MIDDLEWARE])
 
 // Configure your server here
 // Build your actions router in /api/actions/actions-router.js

@@ -8,6 +8,23 @@ function logger(req, res, next) {
     next()
 }
 
+async function validateActionId (req, res, next) {
+    try {
+        const action = await Action.get(req.params.id)
+        if (!action) {
+          next({status: 404, message: 'action not found'})
+        } else {
+          req.action = action
+          next()
+        }
+      } catch (err) {
+        res.status(404).json({
+          message: 'problem finding action'
+        })
+      }
+}
+
 module.exports = {
-    logger
+    logger,
+    validateActionId
 }
