@@ -1,7 +1,8 @@
 const express = require('express')
 const {
     validateActionId,
-    validateAction
+    validateAction,
+    validateExistingId
 } = require('./actions-middlware')
 
 const Action = require('./actions-model')
@@ -27,7 +28,7 @@ router.post('/', validateAction, (req, res, next) => {
     .catch(next)
 })
 
-router.put('/:id', validateActionId, validateAction, (req, res, next) => {
+router.put('/:id', validateActionId, validateAction, validateExistingId, (req, res, next) => {
     Action.update(req.params.id, {project_id: req.project_id, description: req.description, notes: req.notes})
         .then(() => {
             return Action.get(req.params.id)

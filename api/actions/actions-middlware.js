@@ -27,42 +27,48 @@ async function validateActionId (req, res, next) {
 function validateAction(req, res, next) {
     const { project_id, description, notes, completed } = req.body;
 
-    Action.get()
-        .then(actions => {
-            const existingProjectIds = actions.map(action => action.project_id);
-            console.log(existingProjectIds)
-
-            if (!existingProjectIds.includes(project_id)) {
-                res.status(400).json({
-                    message: 'project id must correspond with existing project'
-                });
-            } else if (!project_id || !description || !notes) {
-                res.status(400).json({
-                    message: 'missing required fields'
-                });
-            } else if (description.length > 128) {
-                res.status(400).json({
-                    message: 'description must be 128 characters or less'
-                });
-            } else if (completed !== true && completed !== false) {
-                res.status(400).json({
-                    message: 'Missing completed property'
-                });
-            } else {
-                req.project_id = project_id;
-                req.description = description;
-                req.notes = notes;
-                req.completed = completed;
-                next();
-            }
-        })
-        .catch(err => next(err));
+    if (!project_id || !description || !notes) {
+        res.status(400).json({
+            message: 'missing required fields'
+        });
+    } else if (description.length > 128) {
+        res.status(400).json({
+            message: 'description must be 128 characters or less'
+        });
+    } else if (completed !== true && completed !== false) {
+        res.status(400).json({
+            message: 'Missing completed property'
+        });
+    } else {
+        req.project_id = project_id;
+        req.description = description;
+        req.notes = notes;
+        req.completed = completed;
+        next();
+    }
 }
 
+async function validateExistingId(req, res, next) {
+    const { project_id } = req.body;
+
+    try {
+        const action = await Action.get(req.params.id);
+
+        if (!action || action.id !== project_id) {
+            return res.status(400).json({
+                message: 'project id must correspond with existing id'
+            });
+        }
+
+        next();
+    } catch (err) {
+        next(err);
+    }
+}
 
 module.exports = {
     logger,
     validateActionId,
     validateAction,
-
+    validateExistingId
 }
