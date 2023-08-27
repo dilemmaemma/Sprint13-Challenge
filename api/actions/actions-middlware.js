@@ -36,7 +36,7 @@ function validateAction(req, res, next) {
                 res.status(400).json({
                     message: 'project id must correspond with existing project'
                 });
-            } else if (!project_id || !project_id.trim() || !description || !notes) {
+            } else if (!project_id || !description || !notes) {
                 res.status(400).json({
                     message: 'missing required fields'
                 });
@@ -49,7 +49,7 @@ function validateAction(req, res, next) {
                     message: 'Missing completed property'
                 });
             } else {
-                req.project_id = project_id.trim();
+                req.project_id = project_id;
                 req.description = description;
                 req.notes = notes;
                 req.completed = completed;
