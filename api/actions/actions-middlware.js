@@ -33,21 +33,9 @@ function validateAction(req, res, next) {
                     message: 'project id must correspond with existing project'
                 })
             } else {
-                if (!project_id && !description && !notes) {
+                if (!project_id || !project_id.trim() || !description || !notes) {
                     res.status(400).json({
-                        message: 'missing required project id, description, and notes fields'
-                    })
-                } else if (!project_id || !project_id.trim()) {
-                    res.status(400).json({
-                        message: 'missing required project id field'
-                    })
-                } else if (!description) {
-                    res.status(400).json({
-                        message: 'missing required description field'
-                    })
-                } else if (!notes) {
-                    res.status(400).json({
-                        message: 'missing required notes field'
+                        message: 'missing required fields'
                     })
                 } else if (description.length > 128) {
                     res.status(400).json({
