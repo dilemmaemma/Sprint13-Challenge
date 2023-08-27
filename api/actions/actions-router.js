@@ -20,7 +20,7 @@ router.get('/:id', validateActionId, (req, res) => {
 })
 
 router.post('/', validateAction, (req, res, next) => {
-    Action.insert({project_id: req.project_id, description: req.description, notes: req.notes})
+    Action.insert({project_id: req.project_id, description: req.description, notes: req.notes, completed: req.completed})
     .then(newAction => {
       res.status(201).json(newAction)
     })

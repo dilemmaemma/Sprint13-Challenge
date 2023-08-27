@@ -17,11 +17,11 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', validateProjectId, (req, res) => {
-    req.json(req.project)
+    res.json(req.project)
 })
 
 router.post('/', validateProject, (req, res, next) => {
-    Project.insert({name: req.name, description: req.description})
+    Project.insert({name: req.name, description: req.description, completed: req.completed})
     .then(newProject => {
       res.status(201).json(newProject)
     })
@@ -29,15 +29,15 @@ router.post('/', validateProject, (req, res, next) => {
 })
 
 router.put('/:id', validateProjectId, validateProject, (req, res, next) => {
-    Project.update(req.params.id, {name: req.name, description: req.description})
+    Project.update(req.params.id, {name: req.name, description: req.description, completed: req.completed})
         .then(() => {
-            return Project.get(req.params.id)
+            return Project.get(req.params.id);
         })
         .then(updatedProject => {
-            res.json(updatedProject)
+            res.json(updatedProject);
         })
-        .catch(next)
-})
+        .catch(next);
+});
 
 router.delete('/:id', validateProjectId, async (req, res, next) => {
     try {

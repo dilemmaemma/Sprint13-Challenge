@@ -27,46 +27,43 @@ async function validateActionId (req, res, next) {
 function validateAction(req, res, next) {
     Action.get()
         .then(id => {
-            const { project_id } = req.body
+            const { project_id, description, notes, completed } = req.body
             if(!id.includes(project_id)) {
                 res.status(400).json({
                     message: 'project id must correspond with existing project'
                 })
             } else {
-                return
-            }
-        })
-        .then(() => {
-            const { project_id, description, notes } = req.body
-            if (!project_id && !description && !notes) {
-                res.status(400).json({
-                    message: 'missing required project id, description, and notes fields'
-                })
-            } else if (!project_id || !project_id.trim()) {
-                res.status(400).json({
-                    message: 'missing required project id field'
-              })
-            } else if (!description) {
-                res.status(400).json({
-                    message: 'missing required description field'
-                })
-            } else if (!notes) {
-                res.status(400).json({
-                    message: 'missing required notes field'
-                })
-            } else if (description.length > 128) {
-                res.status(400).json({
-                    message: 'description must be 128 characters or less'
-                })
-            } else {
-              req.project_id = project_id.trim()
-              req.description = description
-              req.notes = notes
-              next()
+                if (!project_id && !description && !notes) {
+                    res.status(400).json({
+                        message: 'missing required project id, description, and notes fields'
+                    })
+                } else if (!project_id || !project_id.trim()) {
+                    res.status(400).json({
+                        message: 'missing required project id field'
+                    })
+                } else if (!description) {
+                    res.status(400).json({
+                        message: 'missing required description field'
+                    })
+                } else if (!notes) {
+                    res.status(400).json({
+                        message: 'missing required notes field'
+                    })
+                } else if (description.length > 128) {
+                    res.status(400).json({
+                        message: 'description must be 128 characters or less'
+                    })
+                } else {
+                    req.project_id = project_id.trim()
+                    req.description = description
+                    req.notes = notes
+                    req.completed = completed
+                    next()
+                }
             }
         })
         .catch (err => {
-            res.status(500).json({
+            res.status(400).json({
                 message: err.message,
                 stack: err.stack
             })
