@@ -27,7 +27,7 @@ async function validateActionId (req, res, next) {
 function validateAction(req, res, next) {
     const { project_id, description, notes, completed } = req.body;
 
-    Action.get(req.params.id)
+    Action.get()
         .then(actions => {
             const existingProjectIds = actions.map(action => action.project_id);
             console.log(existingProjectIds)
