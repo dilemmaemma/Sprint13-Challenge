@@ -53,13 +53,11 @@ async function validateExistingId(req, res, next) {
 
     try {
         const action = await Action.get(req.params.id);
-
         if (!action || action.id !== project_id) {
             return res.status(400).json({
                 message: 'project id must correspond with existing id'
             });
         }
-
         next();
     } catch (err) {
         next(err);
