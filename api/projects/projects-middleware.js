@@ -22,6 +22,10 @@ function validateProject(req, res, next) {
         res.status(400).json({
             message: 'Missing required fields'
         })
+    } else if (completed !== true && completed !== false) {
+        res.status(400).json({
+            message: 'Missing completed property'
+        })
     } else {
         req.name = name.trim()
         req.description = description

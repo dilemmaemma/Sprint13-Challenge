@@ -41,6 +41,10 @@ function validateAction(req, res, next) {
                     res.status(400).json({
                         message: 'description must be 128 characters or less'
                     })
+                } else if (completed !== true && completed !== false) {
+                    res.status(400).json({
+                        message: 'Missing completed property'
+                    })
                 } else {
                     req.project_id = project_id.trim()
                     req.description = description
